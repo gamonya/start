@@ -1,48 +1,33 @@
-import {ADD_TASK, DELETE_TASK, TodosState, TodoActionsTypes} from "./types";
+import { ADD_TASK, DELETE_TASK, TodoActionsTypes, Task } from "./types";
 
+const initialState: Task[] = [
+  {
+    id: 1,
+    text: "as",
+    completed: false
+  },
+  {
+    id: 2,
+    text: "asOas",
+    completed: false
+  }
+];
 
-const initialState: TodosState= {
-    todos: [
-        {
-            id:1,
-            text: "as",
-            completed: false
-        },
-        {
-            id:2,
-            text: "asOas",
-            completed: false
-        }
-    ]
-}
+// function updateObject(oldObject: TodosState, newValues: {}) {
+//     return Object.assign({}, oldObject, newValues)
+// }
 
-function updateObject(oldObject: TodosState, newValues: {}) {
-    return Object.assign({}, oldObject, newValues)
-}
+export default function todoApp(
+  state = initialState,
+  action: TodoActionsTypes
+): Task[] {
+  switch (action.type) {
+    case ADD_TASK:
+      return [...state, action.payload];
+    case DELETE_TASK:
+      return state.filter((item) => item.id !== action.id);
 
-
-
-export default function todoApp(state= initialState, action: TodoActionsTypes): TodosState {
-    switch (action.type) {
-        case ADD_TASK:
-            return updateObject(state, {
-                todos: [
-                    ...state.todos,
-                    {   id:3,
-                        text: action.payload,
-                        completed: false
-                    }
-                ]
-            })
-        case DELETE_TASK:
-            return {
-                ...state,
-                ...state.todos.slice(0, action.id), ...state.todos.slice(action.id + 1)
-            }
-
-
-        default:
-            return state
-    }
-
+    default:
+      return state;
+  }
 }
