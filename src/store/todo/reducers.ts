@@ -1,4 +1,10 @@
-import { ADD_TASK, DELETE_TASK, TodoActionsTypes, Task } from "./types";
+import {
+  ADD_TASK,
+  DELETE_TASK,
+  EDIT_TODO,
+  TodoActionsTypes,
+  Task
+} from "./types";
 
 const initialState: Task[] = [
   {
@@ -13,10 +19,6 @@ const initialState: Task[] = [
   }
 ];
 
-// function updateObject(oldObject: TodosState, newValues: {}) {
-//     return Object.assign({}, oldObject, newValues)
-// }
-
 export default function todoApp(
   state = initialState,
   action: TodoActionsTypes
@@ -26,7 +28,12 @@ export default function todoApp(
       return [...state, action.payload];
     case DELETE_TASK:
       return state.filter((item) => item.id !== action.id);
-
+    case EDIT_TODO:
+      return state.map((todo) =>
+        todo.id === action.payload.id
+          ? { ...todo, text: action.payload.text }
+          : todo
+      );
     default:
       return state;
   }

@@ -1,26 +1,32 @@
 // CONSTS
-export const ADD_TASK = "ADD_TASK"
-export const DELETE_TASK = "DELETE_TASK"
+export const ADD_TASK = "ADD_TASK";
+export const DELETE_TASK = "DELETE_TASK";
+export const EDIT_TODO = "EDIT_TODO";
 
 export interface Task {
-    id: number,
-    text: string,
-    completed: boolean
+  id: number;
+  text: string;
+  completed: boolean;
 }
 
 export interface TodosState {
-    todos: Task[]
+  todos: Task[];
 }
 
 interface AddTaskAction {
-    type: typeof ADD_TASK,
-    payload: Task
+  type: typeof ADD_TASK;
+  payload: Task;
 }
-
+interface EdidTask {
+  type: typeof EDIT_TODO;
+  payload: {
+    id: number;
+    text: string;
+  };
+}
 interface DeleteTaskAction {
-    type: typeof DELETE_TASK,
-    id: number
+  type: typeof DELETE_TASK;
+  id: number;
 }
 
-export type TodoActionsTypes = AddTaskAction | DeleteTaskAction
-
+export type TodoActionsTypes = AddTaskAction | DeleteTaskAction | EdidTask;

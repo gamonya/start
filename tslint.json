@@ -13,6 +13,7 @@
     "interface-name": false,
     "ordered-imports": false,
     "no-console": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-angle-bracket-type-assertion": false
   }
 }

@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Task } from "../store/todo/types";
+import { Task } from "./types";
 
 const getTodos = (state: Task[]) => state;
 
