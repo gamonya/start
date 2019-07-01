@@ -1,10 +1,11 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { reducer as todosReducer } from "./todo/reducers";
 
-import todoApp from "./todo/reducers";
-
-const reducer = combineReducers({ todoApp });
+const reducer = combineReducers({
+  todos: todosReducer
+});
 
 export type AppState = ReturnType<typeof reducer>;
 

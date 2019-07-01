@@ -3,38 +3,47 @@ import {
   DELETE_TASK,
   EDIT_TODO,
   TodoActionsTypes,
-  Task
+    TodosState
 } from "./types";
 
-const initialState: Task[] = [
-  {
-    id: 1,
-    text: "as",
-    completed: false
-  },
-  {
-    id: 2,
-    text: "asOas",
-    completed: false
-  }
-];
+const initialState: TodosState = {
+  edited: {},
+  tasks: [
+    {
+      id: 1,
+      text: "as",
+      completed: false
+    },
+    {
+      id: 2,
+      text: "asOas",
+      completed: false
+    }
+  ]
+};
 
-export default function todoApp(
+export function reducer(
   state = initialState,
   action: TodoActionsTypes
-): Task[] {
+) {
   switch (action.type) {
     case ADD_TASK:
-      return [...state, action.payload];
+      return Object.assign({}, state, {
+        tasks: [
+          ...state.tasks,
+          action.payload
+        ]
+      })
     case DELETE_TASK:
-      return state.filter((item) => item.id !== action.id);
+      return {...state, tasks:[...state.tasks.filter((item) => item.id !== action.payload)]};
     case EDIT_TODO:
-      return state.map((todo) =>
-        todo.id === action.payload.id
-          ? { ...todo, text: action.payload.text }
-          : todo
-      );
+      return {...state, tasks:[...state.tasks.map((todo) =>
+          todo.id === action.payload.id
+              ? { ...todo, text: action.payload.text }
+              : todo
+      )]};
     default:
       return state;
   }
 }
+// { ...todo, text: action.payload.text }

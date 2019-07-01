@@ -3,15 +3,15 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { AppState } from "./store";
-import { Task } from "./store/todo/types";
-import { getTodosSelector } from "./store/todo/selectors";
+import { Task, TodosState } from "./store/todo/types";
+import { getTodos } from "./store/todo/selectors";
 
 import { deleteTask, addTodo, editTask } from "./store/todo/actions";
 
 import "./App.css";
 
 interface Props {
-  todos: Task[];
+  todos: TodosState;
   deleteTask: (id: number) => void;
   addTodo: (payload: Task) => void;
   editTask: (payload: any) => void;
@@ -25,6 +25,7 @@ interface State {
 }
 
 class App extends React.PureComponent<Props, State> {
+
   public state: State = {
     text: "",
     editText: "",
@@ -32,10 +33,12 @@ class App extends React.PureComponent<Props, State> {
     editInputShow: false
   };
 
+
   public componentDidMount(): void {
-    console.log(this.props.todos);
+    console.log(this.props);
   }
-  public changeHendle = (e: any) => {
+
+  public changeHendle = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       text: e.target.value
     });
@@ -43,7 +46,7 @@ class App extends React.PureComponent<Props, State> {
 
   public onSubmitHendler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const key = this.props.todos.length + 3 + Math.random();
+    const key = this.props.todos.tasks.length + 3 + Math.random();
     this.props.addTodo({
       id: key,
       text: this.state.text,
@@ -59,31 +62,33 @@ class App extends React.PureComponent<Props, State> {
   };
 
   // EDIT
-  public onEditHendler = (e: any) => {
+  public onEditHendler = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       editText: e.target.value
     });
   };
-  public editHendler = (id: number | null) => {
+  public editHendler = (id: number | null, text: string) => {
     this.setState({
       id,
-      editInputShow: true
+      editInputShow: true,
+      editText: text
     });
-    const resEdit = {
-      id,
-      text: this.state.editText
-    };
-    this.props.editTask(resEdit);
   };
 
   public onSubmitEdit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    this.editHendler(this.state.id);
+
+      const resEdit = {
+          id: this.state.id,
+          text: this.state.editText
+      };
+      this.props.editTask(resEdit);
     this.setState({
       editInputShow: false,
       editText: ""
     });
   };
+
   public render() {
     return (
       <div className="App">
@@ -94,13 +99,13 @@ class App extends React.PureComponent<Props, State> {
             value={this.state.text}
           />
         </form>
-        {this.props.todos.map((item) => {
+        {this.props.todos.tasks.map((item) => {
           return (
             <div className="container" key={item.id}>
               <p
                 title="double click to edite"
                 className="items-msg"
-                onDoubleClick={() => this.editHendler(item.id)}>
+                onDoubleClick={() => this.editHendler(item.id, item.text)}>
                 {item.text}
               </p>
 
@@ -114,6 +119,7 @@ class App extends React.PureComponent<Props, State> {
             <input
               type="text"
               onChange={this.onEditHendler}
+
               value={this.state.editText}
             />
           </form>
@@ -125,7 +131,7 @@ class App extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    todos: getTodosSelector(state.todoApp)
+    todos: getTodos(state)
   };
 };
 // const mapDispatchToProps = (dispatch: Dispatch) => {

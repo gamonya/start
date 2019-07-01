@@ -10,7 +10,8 @@ export interface Task {
 }
 
 export interface TodosState {
-  todos: Task[];
+  tasks: Task[];
+  edited: Task | {};
 }
 
 interface AddTaskAction {
@@ -26,7 +27,7 @@ interface EdidTask {
 }
 interface DeleteTaskAction {
   type: typeof DELETE_TASK;
-  id: number;
+  payload: number;
 }
 
 export type TodoActionsTypes = AddTaskAction | DeleteTaskAction | EdidTask;

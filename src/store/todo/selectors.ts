@@ -1,12 +1,4 @@
-import { createSelector } from "reselect";
+import { AppState } from '../index';
 
-import { Task } from "./types";
 
-const getTodos = (state: Task[]) => state;
-
-export const getTodosSelector = createSelector(
-  [getTodos],
-  (todos) => {
-    return todos;
-  }
-);
+export const getTodos = (state: AppState) => state.todos;
