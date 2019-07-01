@@ -6,4 +6,5 @@ export interface Task {
 
 export interface TodosState {
   tasks: Task[];
+  editInputShowed: boolean
 }

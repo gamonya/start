@@ -1,35 +1,36 @@
 import React from "react";
-// import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
 import { AppState } from "./store";
-import {  TodosState } from "./store/todo/types";
-import { getTodos } from "./store/todo/selectors";
+import {  TodosState } from './store/todo/types';
 
-import { Actions } from "./store/todo/actions";
+import { getTodos, isInputVisible } from './store/todo/selectors';
 
-import AddTaskForm from './containers/AddTaskForm'
+import { Actions } from './store/todo/actions';
+
+import AddTaskForm from './containers/AddTaskForm';
+import EditTaskForm from './containers/EditTaskForm'
 
 import "./App.css";
 
 interface Props {
   todos: TodosState;
   deleteTask: (id: number) => void;
-  // addTodo: (payload: Task) => void;
-  editTask: (payload: {}) => void;
+  isInputShowed: boolean,
+  editInputToggle: (payload: boolean) => void
+
 }
 
 interface State {
-  // text: string;
-  editText: string;
   id: number | null;
-  editInputShow: boolean;
+  editText: string
 }
 
 // STORE PROPS
 const mapStateToProps = (state: AppState) => {
   return {
-    todos: getTodos(state)
+    todos: getTodos(state),
+    isInputShowed: isInputVisible(state)
   };
 };
 
@@ -38,74 +39,33 @@ const mapDispatchToProps = Actions;
 class App extends React.PureComponent<Props, State> {
 
   public state: State = {
-    // text: "",
-    editText: "",
     id: null,
-    editInputShow: false
+    editText: ''
   };
-
-  private stepInput: React.RefObject<HTMLInputElement> = React.createRef();
-
-  public componentDidMount(): void {
-    console.log(this.props);
-  }
-
-
-  // FOCUS method
-  public onFocusField = (el: React.RefObject<HTMLInputElement>) => {
-      el.current!.focus();
-  }
-
-  // BLUR method
-  public handleBlure =() =>{
-    this.setState({
-      editInputShow: false
-    })
-  }
 
   public deleteHendler = (id: number) => {
     this.props.deleteTask(id);
   };
 
-  // EDIT
-  public onEditHendler = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    this.setState({
-      editText: e.target.value
-    });
-  };
   public editHendler = (id: number | null, text: string) => {
-
-    setTimeout(() => this.onFocusField(this.stepInput), 1)
+    this.props.editInputToggle(true)
     this.setState({
       id,
-      editInputShow: true,
       editText: text
     });
   };
 
-  public onSubmitEdit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-      const resEdit = {
-          id: this.state.id,
-          text: this.state.editText
-      };
-      this.props.editTask(resEdit);
-    this.setState({
-      editInputShow: false,
-      editText: ""
-    });
-  };
-
   public render() {
+    const { tasks } = this.props.todos;
+
     return (
       <div className="App">
 
         <AddTaskForm />
 
-        {this.props.todos.tasks.length === 0 && <h1>no tasks</h1>}
-        {this.props.todos.tasks.map((item) => {
+        {tasks.length === 0 && <h1>no tasks</h1>}
+
+        {tasks.map((item) => {
           return (
             <div className="container" key={item.id}>
               <p
@@ -120,17 +80,8 @@ class App extends React.PureComponent<Props, State> {
           );
         })}
         <br />
-        {this.state.editInputShow && (
-          <form onSubmit={this.onSubmitEdit}>
-            <input
-              type="text"
-              onChange={this.onEditHendler}
-              ref={this.stepInput}
-              onBlur={this.handleBlure}
-              value={this.state.editText}
-            />
-          </form>
-        )}
+
+        {this.props.isInputShowed && (<EditTaskForm  editText={this.state.editText} id={this.state.id} />)}
       </div>
     );
   }
