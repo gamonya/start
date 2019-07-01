@@ -1,37 +1,20 @@
-import { action } from 'typesafe-actions';
+import {action, ActionType} from 'typesafe-actions';
 import {
-  ADD_TASK,
-  DELETE_TASK,
-  EDIT_TODO,
-  Task,
-  TodoActionsTypes
+  Task
 } from "./types";
 
- const addTodo = (payload: Task): TodoActionsTypes => action(ADD_TASK, payload );
-// export function addTodo(payload: Task): TodoActionsTypes {
-//   return { type: ADD_TASK, payload };
-// }
-
-
- const deleteTask = (payload : number): TodoActionsTypes => action(DELETE_TASK, payload)
-// export function deleteTask(id: number): TodoActionsTypes {
-//   return {
-//     type: DELETE_TASK,
-//     id
-//   };
-// }
-
- const editTask = (payload: Task): TodoActionsTypes => action(EDIT_TODO, payload)
-
-// export function editTask(payload: any): TodoActionsTypes {
-//   return {
-//     type: EDIT_TODO,
-//     payload
-//   };
-// }
-
-export {
-  editTask,
-  deleteTask,
-  addTodo
+export enum ActionTypes {
+    ADD_TASK = 'ADD_TASK',
+    DELETE_TASK = 'DELETE_TASK',
+    EDIT_TODO = 'EDIT_TODO'
 }
+
+export const Actions = {
+    addTodo: (payload: Task) => action(ActionTypes.ADD_TASK, payload ),
+    deleteTask : (payload : number) => action(ActionTypes.DELETE_TASK, payload),
+    editTask : (payload: Task) => action(ActionTypes.EDIT_TODO, payload)
+
+};
+
+
+export type ActionTypeUnion = ActionType<typeof Actions>;

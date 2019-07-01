@@ -6,7 +6,7 @@ import { AppState } from "./store";
 import { Task, TodosState } from "./store/todo/types";
 import { getTodos } from "./store/todo/selectors";
 
-import { deleteTask, addTodo, editTask } from "./store/todo/actions";
+import { Actions } from "./store/todo/actions";
 
 import "./App.css";
 
@@ -14,7 +14,7 @@ interface Props {
   todos: TodosState;
   deleteTask: (id: number) => void;
   addTodo: (payload: Task) => void;
-  editTask: (payload: any) => void;
+  editTask: (payload: {}) => void;
 }
 
 interface State {
@@ -23,6 +23,15 @@ interface State {
   id: number | null;
   editInputShow: boolean;
 }
+
+// STORE
+const mapStateToProps = (state: AppState) => {
+  return {
+    todos: getTodos(state)
+  };
+};
+
+const mapDispatchToProps = Actions;
 
 class App extends React.PureComponent<Props, State> {
 
@@ -58,11 +67,16 @@ class App extends React.PureComponent<Props, State> {
     });
   };
 
+  // FOCUS method
+  public onFocusField = (el: React.RefObject<HTMLInputElement>) => {
+      el.current!.focus();
+  }
 
-  public onFocusField = () => {
-    if( this.stepInput.current) {
-      this.stepInput.current.focus();
-    }
+  // BLUR method
+  public handleBlure =() =>{
+    this.setState({
+      editInputShow: false
+    })
   }
 
   public deleteHendler = (id: number) => {
@@ -78,7 +92,7 @@ class App extends React.PureComponent<Props, State> {
   };
   public editHendler = (id: number | null, text: string) => {
 
-    setTimeout(() => this.onFocusField(), 1)
+    setTimeout(() => this.onFocusField(this.stepInput), 1)
     this.setState({
       id,
       editInputShow: true,
@@ -132,6 +146,7 @@ class App extends React.PureComponent<Props, State> {
               type="text"
               onChange={this.onEditHendler}
               ref={this.stepInput}
+              onBlur={this.handleBlure}
               value={this.state.editText}
             />
           </form>
@@ -141,25 +156,7 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: AppState) => {
-  return {
-    todos: getTodos(state)
-  };
-};
-// const mapDispatchToProps = (dispatch: Dispatch) => {
-//   return {
-//     deleteTask: (id: number) => {
-//       dispatch(deleteTask(id));
-//     },
-//     addTodo: (payload: Task) => {
-//       dispatch(addTodo(payload));
-//     },
-//     editTask: (payload: any) => {
-//       dispatch(editTask(payload));
-//     }
-//   };
-// };
-const mapDispatchToProps = { deleteTask, addTodo, editTask };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

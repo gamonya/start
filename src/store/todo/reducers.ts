@@ -1,21 +1,20 @@
-import {
-  ADD_TASK,
-  DELETE_TASK,
-  EDIT_TODO,
-  TodoActionsTypes,
-    TodosState
-} from "./types";
+import { TodosState } from './types';
+
+
+import { ActionTypes } from "./actions"
+
+import {ActionTypeUnion} from './actions'
 
 const initialState: TodosState = {
   tasks: [
     {
       id: 1,
-      text: "as",
+      text: 'as',
       completed: false
     },
     {
       id: 2,
-      text: "asOas",
+      text: 'asOas',
       completed: false
     }
   ]
@@ -23,25 +22,42 @@ const initialState: TodosState = {
 
 export function reducer(
   state = initialState,
-  action: TodoActionsTypes
-) {
+  action: ActionTypeUnion
+): TodosState {
   switch (action.type) {
-    case ADD_TASK:
-      return Object.assign({}, state, {
-        tasks: [
-          ...state.tasks,
-          action.payload
+
+    case ActionTypes.ADD_TASK: {
+        const tasks =  [
+            ...state.tasks,
+            action.payload
         ]
+
+      return Object.assign({}, state, {
+        tasks
       })
-    case DELETE_TASK:
-      return {...state, tasks:[...state.tasks.filter((item) => item.id !== action.payload)]};
-    case EDIT_TODO:
-      return {...state, tasks:[...state.tasks.map((todo) =>
-          todo.id === action.payload.id
-              ? { ...todo, text: action.payload.text }
-              : todo
-      )]};
-    default:
+    }
+
+    case ActionTypes.DELETE_TASK: {
+        const tasks = state.tasks.filter((item) => item.id !== action.payload);
+
+        return {
+            ...state,
+            tasks
+        }
+    }
+    case ActionTypes.EDIT_TODO: {
+        const tasks = [...state.tasks.map((todo) =>
+            todo.id === action.payload.id
+                ? {...todo, text: action.payload.text}
+                : todo
+        )]
+
+      return {
+        ...state, tasks
+      };
+    }
+    default: {
       return state;
+    }
   }
 }
