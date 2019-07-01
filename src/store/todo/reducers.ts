@@ -45,4 +45,3 @@ export function reducer(
       return state;
   }
 }
-// { ...todo, text: action.payload.text }

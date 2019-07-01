@@ -33,6 +33,7 @@ class App extends React.PureComponent<Props, State> {
     editInputShow: false
   };
 
+  private stepInput: React.RefObject<HTMLInputElement> = React.createRef();
 
   public componentDidMount(): void {
     console.log(this.props);
@@ -57,17 +58,27 @@ class App extends React.PureComponent<Props, State> {
     });
   };
 
+
+  public onFocusField = () => {
+    if( this.stepInput.current) {
+      this.stepInput.current.focus();
+    }
+  }
+
   public deleteHendler = (id: number) => {
     this.props.deleteTask(id);
   };
 
   // EDIT
   public onEditHendler = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     this.setState({
       editText: e.target.value
     });
   };
   public editHendler = (id: number | null, text: string) => {
+
+    setTimeout(() => this.onFocusField(), 1)
     this.setState({
       id,
       editInputShow: true,
@@ -99,6 +110,7 @@ class App extends React.PureComponent<Props, State> {
             value={this.state.text}
           />
         </form>
+        {this.props.todos.tasks.length === 0 && <h1>no tasks</h1>}
         {this.props.todos.tasks.map((item) => {
           return (
             <div className="container" key={item.id}>
@@ -119,7 +131,7 @@ class App extends React.PureComponent<Props, State> {
             <input
               type="text"
               onChange={this.onEditHendler}
-
+              ref={this.stepInput}
               value={this.state.editText}
             />
           </form>
