@@ -3,28 +3,30 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { AppState } from "./store";
-import { Task, TodosState } from "./store/todo/types";
+import {  TodosState } from "./store/todo/types";
 import { getTodos } from "./store/todo/selectors";
 
 import { Actions } from "./store/todo/actions";
+
+import AddTaskForm from './containers/AddTaskForm'
 
 import "./App.css";
 
 interface Props {
   todos: TodosState;
   deleteTask: (id: number) => void;
-  addTodo: (payload: Task) => void;
+  // addTodo: (payload: Task) => void;
   editTask: (payload: {}) => void;
 }
 
 interface State {
-  text: string;
+  // text: string;
   editText: string;
   id: number | null;
   editInputShow: boolean;
 }
 
-// STORE
+// STORE PROPS
 const mapStateToProps = (state: AppState) => {
   return {
     todos: getTodos(state)
@@ -36,7 +38,7 @@ const mapDispatchToProps = Actions;
 class App extends React.PureComponent<Props, State> {
 
   public state: State = {
-    text: "",
+    // text: "",
     editText: "",
     id: null,
     editInputShow: false
@@ -48,24 +50,6 @@ class App extends React.PureComponent<Props, State> {
     console.log(this.props);
   }
 
-  public changeHendle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      text: e.target.value
-    });
-  };
-
-  public onSubmitHendler = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    const key = this.props.todos.tasks.length + 3 + Math.random();
-    this.props.addTodo({
-      id: key,
-      text: this.state.text,
-      completed: false
-    });
-    this.setState({
-      text: ""
-    });
-  };
 
   // FOCUS method
   public onFocusField = (el: React.RefObject<HTMLInputElement>) => {
@@ -117,13 +101,9 @@ class App extends React.PureComponent<Props, State> {
   public render() {
     return (
       <div className="App">
-        <form onSubmit={this.onSubmitHendler}>
-          <input
-            type="text"
-            onChange={this.changeHendle}
-            value={this.state.text}
-          />
-        </form>
+
+        <AddTaskForm />
+
         {this.props.todos.tasks.length === 0 && <h1>no tasks</h1>}
         {this.props.todos.tasks.map((item) => {
           return (

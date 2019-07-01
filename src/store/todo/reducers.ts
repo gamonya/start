@@ -3,7 +3,7 @@ import { TodosState } from './types';
 
 import { ActionTypes } from "./actions"
 
-import {ActionTypeUnion} from './actions'
+import { ActionTypeUnion } from './actions'
 
 const initialState: TodosState = {
   tasks: [
