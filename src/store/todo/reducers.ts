@@ -7,7 +7,6 @@ import {
 } from "./types";
 
 const initialState: TodosState = {
-  edited: {},
   tasks: [
     {
       id: 1,

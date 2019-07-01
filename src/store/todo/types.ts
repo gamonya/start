@@ -11,7 +11,7 @@ export interface Task {
 
 export interface TodosState {
   tasks: Task[];
-  edited: Task | {};
+  // edited: Task;
 }
 
 interface AddTaskAction {

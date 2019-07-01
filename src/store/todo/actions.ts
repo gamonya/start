@@ -32,6 +32,6 @@ import {
 
 export {
   editTask,
-    deleteTask,
-    addTodo
+  deleteTask,
+  addTodo
 }

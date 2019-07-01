@@ -9,7 +9,7 @@ const reducer = combineReducers({
 
 export type AppState = ReturnType<typeof reducer>;
 
-export default function configureStore(preloadedState: any) {
+  function configureStore(preloadedState: any) {
   const middlewares = [thunkMiddleware];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
@@ -20,3 +20,4 @@ export default function configureStore(preloadedState: any) {
 
   return store;
 }
+export const rootStore = configureStore(undefined)
