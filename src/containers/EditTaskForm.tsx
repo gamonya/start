@@ -12,7 +12,7 @@ interface State {
 }
 
 // STORE PROPS
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: AppState, own: any) => {
     return {
         editedId: getEditedID(state),
         editedText: getEditedText(state)

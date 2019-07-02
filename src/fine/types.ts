@@ -1,10 +1,10 @@
 interface AddAction {
-    type: "ADD",
+    type: 'ADD',
     payload: any
 }
 
 interface DeleteAction {
-    type:  "DEL",
+    type:  'DEL',
     payload: any
 }
 

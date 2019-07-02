@@ -9,13 +9,14 @@ export enum ActionTypes {
 }
 
 export const Actions = {
-    addTodo: (text: string, completed: false) => action(ActionTypes.ADD_TASK, {
+    addTodo: (text: string) => action(ActionTypes.ADD_TASK, {
         id: Math.random(),
-        text,
-        completed
+        text
     }),
     deleteTask : (payload : number) => action(ActionTypes.DELETE_TASK, payload),
+
     editTask : (payload: string) => action(ActionTypes.EDIT_TODO, payload),
+
     editedTask: ({id, text}: {id: number | null, text: string}) => action(ActionTypes.EDITED_TASK, {id,text}),
     editedCancel: () => action(ActionTypes.EDITED_CANCEL),
 

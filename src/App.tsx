@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { AppState } from './store';
-import {  TodosState } from './store/todo/types';
 
 import { getTodos, getEditedID } from './store/todo/selectors';
 
@@ -12,14 +12,6 @@ import AddTaskForm from './containers/AddTaskForm';
 import EditTaskForm from './containers/EditTaskForm'
 
 import './App.css';
-
-interface Props {
-  todos: TodosState;
-  deleteTask: (id: number) => void;
-  iditedId: number | null,
-  editedTask: (payload: {id: number | null, text: string}) => void
-
-}
 
 interface State {
   id: number | null;
@@ -34,7 +26,17 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = Actions;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  deleteTask: (id: number) => dispatch(Actions.deleteTask(id)),
+  editedTask: (id: number | null, text: string) => dispatch(Actions.editedTask({id, text})),
+});
+
+
+
+type Props =
+    & ReturnType<typeof mapStateToProps>
+    & ReturnType<typeof mapDispatchToProps>
+    ;
 
 class App extends React.PureComponent<Props, State> {
 
@@ -48,7 +50,7 @@ class App extends React.PureComponent<Props, State> {
   };
 
   public editHendler = (id: number | null, text: string) => {
-    this.props.editedTask({id, text})
+    this.props.editedTask(id, text)
     this.setState({
       id,
       editText: text
@@ -56,16 +58,14 @@ class App extends React.PureComponent<Props, State> {
   };
 
   public render() {
-    const { tasks } = this.props.todos;
-
     return (
       <div className='App'>
 
         <AddTaskForm />
 
-        {tasks.length === 0 && <h1>no tasks</h1>}
+        {this.props.todos.length === 0 && <h1>no tasks</h1>}
 
-        {tasks.map((item) => {
+        {this.props.todos.map((item) => {
           return (
             <div className='container' key={item.id}>
               <p

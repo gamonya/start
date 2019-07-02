@@ -1,15 +1,17 @@
 import React, {PureComponent} from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Actions } from '../store/todo/actions';
 
 interface State {
     text: string
 }
 
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    addTodo: (text: string) => dispatch(Actions.addTodo(text))
+});
 
-interface Props {
-    addTodo: (text: string, completed: boolean) => void;
-}
+type Props = & ReturnType<typeof mapDispatchToProps>;
 
 class AddTaskForm extends PureComponent<Props, State> {
 
@@ -26,10 +28,7 @@ class AddTaskForm extends PureComponent<Props, State> {
 
     public onSubmitHendler = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        this.props.addTodo(
-            this.state.text,
-            false
-        );
+        this.props.addTodo(this.state.text);
         this.setState({
             text: ''
         });
@@ -51,6 +50,5 @@ class AddTaskForm extends PureComponent<Props, State> {
     }
 }
 
-const mapDispatchToProps = Actions;
 
 export default connect(null, mapDispatchToProps)(AddTaskForm);
