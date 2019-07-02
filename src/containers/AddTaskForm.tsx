@@ -1,8 +1,6 @@
 import React, {PureComponent} from 'react';
 import { connect } from "react-redux";
 import { Actions } from "../store/todo/actions";
-import {Task} from "../store/todo/types";
-
 
 interface State {
     text: string
@@ -10,7 +8,7 @@ interface State {
 
 
 interface Props {
-    addTodo: (payload: Task) => void;
+    addTodo: (text: string, completed: boolean) => void;
 }
 
 class AddTaskForm extends PureComponent<Props, State> {
@@ -28,12 +26,10 @@ class AddTaskForm extends PureComponent<Props, State> {
 
     public onSubmitHendler = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        const key =  Math.random();
-        this.props.addTodo({
-            id: key,
-            text: this.state.text,
-            completed: false
-        });
+        this.props.addTodo(
+            this.state.text,
+            false
+        );
         this.setState({
             text: ""
         });

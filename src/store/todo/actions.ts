@@ -7,14 +7,20 @@ export enum ActionTypes {
     ADD_TASK = 'ADD_TASK',
     DELETE_TASK = 'DELETE_TASK',
     EDIT_TODO = 'EDIT_TODO',
-    EDIT_INPUT_TOGGLE = 'EDIT_INPUT_TOGGLE'
+    EDITED_TASK = 'EDITED_TASK',
+    EDITED_CANCEL = 'EDITED_CANCEL'
 }
 
 export const Actions = {
-    addTodo: (payload: Task) => action(ActionTypes.ADD_TASK, payload ),
+    addTodo: (text: string, completed: false) => action(ActionTypes.ADD_TASK, {
+        id: Math.random(),
+        text,
+        completed
+    } ),
     deleteTask : (payload : number) => action(ActionTypes.DELETE_TASK, payload),
     editTask : (payload: Task) => action(ActionTypes.EDIT_TODO, payload),
-    editInputToggle: (payload: boolean) => action(ActionTypes.EDIT_INPUT_TOGGLE, payload)
+    editedTask: (id: number | null, text: '') => action(ActionTypes.EDITED_TASK, {id,text}),
+    editedCancel: () => action(ActionTypes.EDITED_CANCEL),
 
 };
 

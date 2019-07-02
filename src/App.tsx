@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { AppState } from "./store";
 import {  TodosState } from './store/todo/types';
 
-import { getTodos, isInputVisible } from './store/todo/selectors';
+import { getTodos, getEditedID } from './store/todo/selectors';
 
 import { Actions } from './store/todo/actions';
 
@@ -16,8 +16,8 @@ import "./App.css";
 interface Props {
   todos: TodosState;
   deleteTask: (id: number) => void;
-  isInputShowed: boolean,
-  editInputToggle: (payload: boolean) => void
+  iditedId: number | null,
+  editedTask: (id: number | null, text: string) => void
 
 }
 
@@ -30,7 +30,7 @@ interface State {
 const mapStateToProps = (state: AppState) => {
   return {
     todos: getTodos(state),
-    isInputShowed: isInputVisible(state)
+    iditedId: getEditedID(state)
   };
 };
 
@@ -48,7 +48,7 @@ class App extends React.PureComponent<Props, State> {
   };
 
   public editHendler = (id: number | null, text: string) => {
-    this.props.editInputToggle(true)
+    this.props.editedTask(id, text)
     this.setState({
       id,
       editText: text
@@ -81,7 +81,7 @@ class App extends React.PureComponent<Props, State> {
         })}
         <br />
 
-        {this.props.isInputShowed && (<EditTaskForm  editText={this.state.editText} id={this.state.id} />)}
+        {this.props.iditedId && (<EditTaskForm  />)}
       </div>
     );
   }

@@ -3,4 +3,5 @@ import { AppState } from '../index';
 
 export const getTodos = (state: AppState) => state.todos;
 
-export const isInputVisible = (state: AppState) => state.todos.editInputShowed
+export const getEditedID = (state: AppState) => state.todos.edited.id
+export const getEditedText =(state: AppState) => state.todos.edited.text

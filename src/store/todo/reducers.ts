@@ -6,7 +6,10 @@ import { ActionTypes } from "./actions"
 import { ActionTypeUnion } from './actions'
 
 const initialState: TodosState = {
-      editInputShowed: false,
+    edited: {
+          id: null,
+          text: ''
+      },
       tasks: [
         {
           id: 1,
@@ -33,9 +36,7 @@ export function reducer(
             action.payload
         ]
 
-      return Object.assign({}, state, {
-        tasks
-      })
+      return Object.assign({}, state, {tasks})
     }
 
     case ActionTypes.DELETE_TASK: {
@@ -48,20 +49,33 @@ export function reducer(
     }
     case ActionTypes.EDIT_TODO: {
         const tasks = state.tasks.map((todo) =>
-            todo.id === action.payload.id
-                ? {...todo, text: action.payload.text}
-                : todo);
+            todo.id === action.payload.id ? {...todo, text: action.payload.text}  : todo);
 
 
       return {
         ...state, tasks
       };
     }
-      case ActionTypes.EDIT_INPUT_TOGGLE: {
+      case ActionTypes.EDITED_TASK: {
+          const edited =  {
+              id: action.payload.id,
+                  text: action.payload.text
+          }
 
           return {
               ...state,
-              editInputShowed: action.payload
+              edited
+          }
+      }
+      case ActionTypes.EDITED_CANCEL: {
+          const edited = {
+              ...state.edited,
+              id: null
+          }
+
+          return {
+              ...state,
+              edited
           }
       }
     default: {
