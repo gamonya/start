@@ -1,7 +1,7 @@
 import { TodosState } from './types';
 
 
-import { ActionTypes } from "./actions"
+import { ActionTypes } from './actions'
 
 import { ActionTypeUnion } from './actions'
 
@@ -14,12 +14,10 @@ const initialState: TodosState = {
         {
           id: 1,
           text: 'as',
-          completed: false
         },
         {
           id: 2,
           text: 'asOas',
-          completed: false
         }
       ]
 };
@@ -34,7 +32,7 @@ export function reducer(
         const tasks =  [
             ...state.tasks,
             action.payload
-        ]
+        ];
 
       return Object.assign({}, state, {tasks})
     }
@@ -49,17 +47,20 @@ export function reducer(
     }
     case ActionTypes.EDIT_TODO: {
         const tasks = state.tasks.map((todo) =>
-            todo.id === action.payload.id ? {...todo, text: action.payload.text}  : todo);
+            todo.id === state.edited.id ? {...todo, text: action.payload}  : todo
+        );
 
 
       return {
-        ...state, tasks
+        ...state,
+        tasks,
+          edited: {id: null, text: ''}
       };
     }
       case ActionTypes.EDITED_TASK: {
           const edited =  {
               id: action.payload.id,
-                  text: action.payload.text
+              text: action.payload.text
           }
 
           return {

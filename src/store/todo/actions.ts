@@ -1,7 +1,4 @@
 import {action, ActionType} from 'typesafe-actions';
-import {
-  Task
-} from "./types";
 
 export enum ActionTypes {
     ADD_TASK = 'ADD_TASK',
@@ -16,10 +13,10 @@ export const Actions = {
         id: Math.random(),
         text,
         completed
-    } ),
+    }),
     deleteTask : (payload : number) => action(ActionTypes.DELETE_TASK, payload),
-    editTask : (payload: Task) => action(ActionTypes.EDIT_TODO, payload),
-    editedTask: (id: number | null, text: '') => action(ActionTypes.EDITED_TASK, {id,text}),
+    editTask : (payload: string) => action(ActionTypes.EDIT_TODO, payload),
+    editedTask: ({id, text}: {id: number | null, text: string}) => action(ActionTypes.EDITED_TASK, {id,text}),
     editedCancel: () => action(ActionTypes.EDITED_CANCEL),
 
 };

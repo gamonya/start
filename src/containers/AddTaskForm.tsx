@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import { connect } from "react-redux";
-import { Actions } from "../store/todo/actions";
+import { connect } from 'react-redux';
+import { Actions } from '../store/todo/actions';
 
 interface State {
     text: string
@@ -31,7 +31,7 @@ class AddTaskForm extends PureComponent<Props, State> {
             false
         );
         this.setState({
-            text: ""
+            text: ''
         });
     };
 
@@ -40,10 +40,11 @@ class AddTaskForm extends PureComponent<Props, State> {
             <React.Fragment>
                 <form onSubmit={this.onSubmitHendler}>
                     <input
-                        type="text"
+                        type='text'
                         onChange={this.changeHendle}
                         value={this.state.text}
                     />
+                    <input type='submit' value='add' style={{marginLeft: 10}} />
                 </form>
             </React.Fragment>
         );

@@ -1,7 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { AppState } from "./store";
+import { AppState } from './store';
 import {  TodosState } from './store/todo/types';
 
 import { getTodos, getEditedID } from './store/todo/selectors';
@@ -11,13 +11,13 @@ import { Actions } from './store/todo/actions';
 import AddTaskForm from './containers/AddTaskForm';
 import EditTaskForm from './containers/EditTaskForm'
 
-import "./App.css";
+import './App.css';
 
 interface Props {
   todos: TodosState;
   deleteTask: (id: number) => void;
   iditedId: number | null,
-  editedTask: (id: number | null, text: string) => void
+  editedTask: (payload: {id: number | null, text: string}) => void
 
 }
 
@@ -48,7 +48,7 @@ class App extends React.PureComponent<Props, State> {
   };
 
   public editHendler = (id: number | null, text: string) => {
-    this.props.editedTask(id, text)
+    this.props.editedTask({id, text})
     this.setState({
       id,
       editText: text
@@ -59,7 +59,7 @@ class App extends React.PureComponent<Props, State> {
     const { tasks } = this.props.todos;
 
     return (
-      <div className="App">
+      <div className='App'>
 
         <AddTaskForm />
 
@@ -67,10 +67,10 @@ class App extends React.PureComponent<Props, State> {
 
         {tasks.map((item) => {
           return (
-            <div className="container" key={item.id}>
+            <div className='container' key={item.id}>
               <p
-                title="double click to edite"
-                className="items-msg"
+                title='double click to edite'
+                className='items-msg'
                 onDoubleClick={() => this.editHendler(item.id, item.text)}>
                 {item.text}
               </p>

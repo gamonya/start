@@ -1,8 +1,8 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunkMiddleware from "redux-thunk";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import { StateType } from 'typesafe-actions';
-import { composeWithDevTools } from "redux-devtools-extension";
-import { reducer as todosReducer } from "./todo/reducers";
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { reducer as todosReducer } from './todo/reducers';
 
 const reducer = combineReducers({
   todos: todosReducer
