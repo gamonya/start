@@ -22,4 +22,4 @@ export type AppState = StateType<typeof reducer>;
 
   return store;
 }
-export const rootStore = configureStore(undefined)
+export const rootStore = configureStore(undefined);

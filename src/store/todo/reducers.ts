@@ -30,9 +30,9 @@ export function reducer(
             const entities ={
                 ...state.entities,
                 [action.payload.id]: action.payload
-            }
+            };
 
-            const ids = [...state.ids, action.payload.id]
+            const ids = [...state.ids, action.payload.id];
 
             return {
                 ...state,
@@ -44,10 +44,10 @@ export function reducer(
         case ActionTypes.DELETE_TASK: {
             const tasksIds = state.ids.filter((item) => {
                 return item !== action.payload
-            })
+            });
 
             const tasks =  {...state.entities};
-            delete tasks[action.payload]
+            delete tasks[action.payload];
 
             return {
                 ...state,
@@ -56,7 +56,7 @@ export function reducer(
             }
         }
         case ActionTypes.EDIT_TODO: {
-            const id = state.editedId || 1
+            const id = state.editedId || 1;
             return {
                 ...state,
                 entities: {

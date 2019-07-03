@@ -12,7 +12,7 @@ interface State {
 }
 
 // STORE PROPS
-const mapStateToProps = (state: AppState, own: any) => {
+const mapStateToProps = (state: AppState) => {
     return {
         editedId: getEditedID(state),
         editedText: getEditedText(state)
@@ -35,7 +35,7 @@ class EditTaskForm extends Component<Props, State> {
 
     public state = {
         editText: this.props.editedText,
-    }
+    };
 
     private stepInput: React.RefObject<HTMLInputElement> = React.createRef();
 

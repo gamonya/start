@@ -17,7 +17,7 @@ class AddTaskForm extends PureComponent<Props, State> {
 
    public state = {
         text: ''
-    }
+    };
 
     public changeHendle = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
